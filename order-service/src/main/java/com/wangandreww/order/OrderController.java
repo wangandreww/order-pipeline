@@ -1,6 +1,7 @@
 package com.wangandreww.order;
 
 import java.net.URI;
+import java.util.List;
 
 import jakarta.validation.Valid;
 
@@ -30,6 +31,11 @@ public class OrderController {
 		return ResponseEntity
 				.created(URI.create("/orders/" + order.getId()))
 				.body(OrderResponse.from(order));
+	}
+
+	@GetMapping
+	public List<OrderResponse> list() {
+		return orders.findTop50ByOrderByIdDesc().stream().map(OrderResponse::from).toList();
 	}
 
 	@GetMapping("/{id}")

@@ -1,6 +1,10 @@
 server:
   port: 8080
 
+orders:
+  # How long an order may stay PLACED before OrderTimeoutJob rejects it
+  placed-timeout: 2m
+
 spring:
   application:
     name: order-service

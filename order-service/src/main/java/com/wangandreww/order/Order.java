@@ -36,6 +36,9 @@ public class Order {
 	@Column(nullable = false, updatable = false)
 	private Instant createdAt;
 
+	// Only set when inventory rejects the order
+	private String rejectionReason;
+
 	// Required by JPA, which creates the object first and then fills in the fields
 	protected Order() {
 	}
@@ -52,8 +55,12 @@ public class Order {
 		return moveFromPlaced(Status.CONFIRMED);
 	}
 
-	public boolean reject() {
-		return moveFromPlaced(Status.REJECTED);
+	public boolean reject(String reason) {
+		if (!moveFromPlaced(Status.REJECTED)) {
+			return false;
+		}
+		rejectionReason = reason;
+		return true;
 	}
 
 	private boolean moveFromPlaced(Status next) {
@@ -82,6 +89,10 @@ public class Order {
 
 	public Instant getCreatedAt() {
 		return createdAt;
+	}
+
+	public String getRejectionReason() {
+		return rejectionReason;
 	}
 
 }

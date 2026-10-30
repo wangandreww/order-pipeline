@@ -43,6 +43,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jackson</artifactId>
 		</dependency>
+		<!-- Serves GET /products for the dashboard -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>

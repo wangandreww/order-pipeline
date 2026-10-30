@@ -1,0 +1,359 @@
+/* Colors are variables so dark mode only has to redefine them */
+:root {
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --text: #1c2230;
+  --muted: #6b7385;
+  --border: #e3e6ec;
+  --accent: #3d5afe;
+  --accent-text: #ffffff;
+  --track: #eceff4;
+
+  --placed: #b26a00;
+  --placed-bg: #fff4e0;
+  --confirmed: #1b7f4b;
+  --confirmed-bg: #e3f6ec;
+  --rejected: #c62839;
+  --rejected-bg: #fde8ea;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #11141b;
+    --card: #191d27;
+    --text: #e6e9f0;
+    --muted: #8b93a7;
+    --border: #2a3040;
+    --accent: #6c83ff;
+    --track: #252b39;
+
+    --placed: #f0b25a;
+    --placed-bg: #3a2c14;
+    --confirmed: #5fd39a;
+    --confirmed-bg: #143326;
+    --rejected: #ff7a88;
+    --rejected-bg: #3d1a20;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.5 system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+h1,
+h2 {
+  margin: 0;
+}
+
+.mono {
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* Page layout */
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  font-size: 26px;
+}
+
+.subtitle {
+  margin: 2px 0 0;
+  color: var(--muted);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.side {
+  display: grid;
+  gap: 20px;
+}
+
+@media (max-width: 760px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  min-width: 0;
+}
+
+.card h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.empty {
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Connection indicator */
+
+.live {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--confirmed);
+}
+
+.live::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 2s infinite;
+}
+
+.live.down {
+  color: var(--rejected);
+}
+
+.banner {
+  margin: 0 0 20px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--rejected-bg);
+  color: var(--rejected);
+}
+
+/* Order form */
+
+.order-form {
+  display: grid;
+  gap: 12px;
+}
+
+.order-form label {
+  display: grid;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.order-form input,
+.order-form select {
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.order-form input:focus,
+.order-form select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.order-form button {
+  font: inherit;
+  font-weight: 600;
+  color: var(--accent-text);
+  background: var(--accent);
+  border: 0;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.order-form button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.form-error {
+  margin: 0;
+  color: var(--rejected);
+  font-size: 13px;
+}
+
+.hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Stock bars */
+
+.stock {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.stock-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.stock-label .out {
+  color: var(--rejected);
+}
+
+.bar {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--track);
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--confirmed);
+  /* Animates the bar shrinking when stock is deducted */
+  transition: width 0.6s ease;
+}
+
+.bar-fill.low {
+  background: var(--placed);
+}
+
+/* Orders table */
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.orders {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.orders th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 0 10px 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.orders td {
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.orders tr:last-child td {
+  border-bottom: 0;
+}
+
+.orders .num {
+  text-align: right;
+}
+
+.orders .reason {
+  white-space: normal;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Status badges */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  animation: pop 0.35s ease;
+}
+
+.badge-placed {
+  color: var(--placed);
+  background: var(--placed-bg);
+}
+
+.badge-confirmed {
+  color: var(--confirmed);
+  background: var(--confirmed-bg);
+}
+
+.badge-rejected {
+  color: var(--rejected);
+  background: var(--rejected-bg);
+}
+
+.spinner {
+  width: 9px;
+  height: 9px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}

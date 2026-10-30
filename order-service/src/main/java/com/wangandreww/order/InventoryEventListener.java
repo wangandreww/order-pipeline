@@ -28,7 +28,7 @@ public class InventoryEventListener {
 
 		boolean changed = switch (event.result()) {
 			case RESERVED -> order.confirm();
-			case REJECTED -> order.reject();
+			case REJECTED -> order.reject(event.reason());
 		};
 
 		if (changed) {

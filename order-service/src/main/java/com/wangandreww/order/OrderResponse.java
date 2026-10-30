@@ -8,11 +8,12 @@ public record OrderResponse(
 		String productId,
 		int quantity,
 		Order.Status status,
+		String rejectionReason,
 		Instant createdAt) {
 
 	static OrderResponse from(Order order) {
 		return new OrderResponse(order.getId(), order.getProductId(), order.getQuantity(),
-				order.getStatus(), order.getCreatedAt());
+				order.getStatus(), order.getRejectionReason(), order.getCreatedAt());
 	}
 
 }
